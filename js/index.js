@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () =>{
     document.querySelector("main section#qualifying").style.display = "none";
     document.querySelector("main section#results").style.display = "none";
 
+    //hiding Popups
+    // document.querySelector("main aside#constructor").style.display = "none";
+    // document.querySelector("main aside#driver").style.display = "none";
+    // document.querySelector("main aside#circuit").style.display = "none";
 
     //populating seasons
     array.forEach(year => {
