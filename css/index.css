@@ -77,7 +77,7 @@ main article#browse{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr; 
 }
-main section#races{
+main section#intro{
     background-color: beige;
     grid-column: 1/1;
 }
@@ -85,6 +85,20 @@ main section#img{
     background-color: yellowgreen;
     grid-column: 2/4;
 }
-fieldset{
-    border: none;
+
+
+main section#races{
+    background-color: rgb(30, 167, 126);
+    grid-column: 1;
 }
+main section#qualifying{
+    background-color: rgb(94, 42, 214);
+    grid-column: 2;
+}
+main section#results{
+    background-color: rgb(226, 60, 190);
+    grid-column: 3;
+}
+
+
+

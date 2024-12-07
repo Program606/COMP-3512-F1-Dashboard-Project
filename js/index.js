@@ -8,6 +8,12 @@ array=["2020","2021","2022","2023"];
 document.addEventListener("DOMContentLoaded", () =>{
     select = document.querySelector("#season");
 
+    //hiding Races View
+    document.querySelector("main section#races").style.display = "none";
+    document.querySelector("main section#qualifying").style.display = "none";
+    document.querySelector("main section#results").style.display = "none";
+
+
     //populating seasons
     array.forEach(year => {
         opt = document.createElement("option");
@@ -21,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () =>{
     select.addEventListener("change", e=>{
     selectedYear = e.target.value;
     if(e.target.nodeName.toLowerCase() == "select"){
+        
+        //switching to RacesView
+        toRacesView();
         //not done: retrieving (localStorage) i was thinking of adding a seperate function to handle retrieving
         //not done: check if entered in local storage or not
         console.log(selectedYear);
@@ -33,9 +42,13 @@ document.addEventListener("DOMContentLoaded", () =>{
     });
 });
 
+function toRacesView(){
+document.querySelector("main section#intro").style.display = "none";
+document.querySelector("main section#img").style.display = "none";
+
+document.querySelector("main section#races").style.display = "block";
+document.querySelector("main section#qualifying").style.display = "block";
+document.querySelector("main section#results").style.display = "block";
 
 
-
-function populateSeason(){
-
-}
+};
