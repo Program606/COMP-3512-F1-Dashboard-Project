@@ -1,0 +1,90 @@
+
+:root{
+    /* Got colors by using https://www.formula1.com/ website and using a color extractor
+    https://www.colorcombos.com/combotester.html?rnd=0&color0=d31411&color1=ffffff&color2=ff8000&color3=3671c6&color4=e80020&color5=27f4d2&color6=814264&color7=229971&color8=6692ff&color9=b6babd&color10=64c4ff&color11=52e252&color12=0093cc&color13=604800&color14=aaaaac&color15=142756&color16=221977 */
+    --f1Red: #d31411;
+    --f1Black:#142756;
+    
+}
+header { 
+    justify-content: space-between;
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+    padding: auto;
+    box-shadow: #ccc;
+    border: 1px solid #ccc;
+    border-color: var(--f1Black);
+    background-color: var(--f1Red);
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+}
+
+*{
+    font-family:'Courier New', Courier, monospace;
+}
+
+li{
+    list-style: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo{
+    background-color: var(--f1Red);
+    width:150px;
+    height: 35px;
+    justify-self: flex-start;
+    align-self: center;
+    padding-left: 10px;
+}
+/* Styles above From Asg 1. Moses up to you if u want to keep, not sure if allowed*/
+main{
+    background-color: blanchedalmond;
+    /* not sure why when I put both (width/height) to percent, doesn;t show */
+    width: 100%;
+    height: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main article#home{
+    width: 100%;
+    height: 20%;
+    background-color: var(--f1Red);
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+    justify-content: space-between;
+    display: inline-flex;
+    background-color: #d31411;
+}
+main article#browse{
+    width: 100%;
+    height: 80%;
+    background-color: #142756;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr; 
+}
+main section#races{
+    background-color: beige;
+    grid-column: 1/1;
+}
+main section#img{
+    background-color: yellowgreen;
+    grid-column: 2/4;
+}
+fieldset{
+    border: none;
+}

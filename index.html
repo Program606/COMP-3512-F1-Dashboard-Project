@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script rel="stylesheet" href="./css/index.css"></script>
-    <script href="./js/index.js"></script>
+    <link rel="stylesheet" href="./css/index.css"></link>
+    <script src="./js/index.js"></script>
     <title>F1 Project</title>
 </head>
 <!-- Note all markup should be in this file, we can just display: none if we don't need them -->
@@ -21,15 +21,35 @@ else
     fetch/store data in local storage
 ** checkData in localstorage if empty before submitting
 -->
-<header></header>
-
+<!-- <header>
+    not sure if we can use this bc from Asg1, up to you mozes
+    <img class="logo" src="./images/f1_logo.png" alt="logo"> 
+        <h2>F1 Dashboard Project</h2>
+</header> -->
 
 <main>
-    <article id="home"></article>
+    <article id="home">
+        <img class="logo" src="./images/f1_logo.png" alt="logo"> 
+        <h2>F1 Dashboard Project</h2>
+    </article>
     <article id="browse">
-        <section id="races"></section>
-        <section id="img">
+        <section id="races">
+            <p>Welcome to the F1 Information Hub! This project provides information about F1 races since 2020 </p>
+            <p>Group Members: Prince Manzano, Mozes </p>
+            <p>Github Repo:<a href="https://github.com/Program606/COMP-3512-F1-Dashboard-Project">COMP-3512-F1-Dashboard-Project</a></p>
+            <p>The Technologies this project uses are JavaScript, PhP, Json, Html/Css, and Vscode</p>
+                <label for="season">Season</label>
+                <select id="season">
+                    <option>Select season</option>
+                </select>
+                
+            
 
+                
+            
+        </section>
+        <section id="img">
+            image here
         </section>
     </article>
 </main>
