@@ -6,14 +6,14 @@ function initRacesView(races, year) {
         const li = document.createElement("li");
         li.innerHTML = `
             <strong>${race.round}:</strong> ${race.name} (${race.date})
-            <button class="view-details" data-race-id="${race.raceId}">View Details</button>
+            <button class="view-details" data-race-id="${race.Id}">View Details</button>
         `;
         raceList.appendChild(li);
 
         // Event listener for View Details button
         li.querySelector(".view-details").addEventListener("click", () => {
-            fetchRaceDetails(race.raceId).then((details) => {
-                showRaceDialog(race, details);
+            fetchRaceDetails(race.Id).then((details) => {
+                showRaceDialog(race, details);             
             });
         });
     });
@@ -54,7 +54,8 @@ function fetchRaceDetails(raceId) {
 }
 
 function showRaceDialog(race, details) {
-    const { qualifyingData, resultsData } = details;
+    const qualifyingData = details;
+    const resultsData = details;
 
     // Populate Qualifying Table
     const qualifyingTable = document.getElementById("qualifying-list");
@@ -65,8 +66,8 @@ function showRaceDialog(race, details) {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${qualifier.position || "N/A"}</td>
-                <td>${qualifier.driver?.name || "Unknown"}</td>
-                <td>${qualifier.constructor?.name || "Unknown"}</td>
+                <td>${qualifier.driver.name || "Unknown"}</td>
+                <td>${qualifier.constructor.name || "Unknown"}</td>
                 <td>${qualifier.q1 || "N/A"}</td>
                 <td>${qualifier.q2 || "N/A"}</td>
                 <td>${qualifier.q3 || "N/A"}</td>
