@@ -6,10 +6,9 @@
     <link rel="stylesheet" href="./css/index.css"></link>
     <script src="./js/index.js"></script>
     <script src="./js/dialogBox.js"></script>
-    <script src="./js/PopulateRaces.js"></script>
+    <script src="./js/PopulateContent.js"></script>
     <title>F1 Project</title>
 </head>
-<!-- Note all markup should be in this file, we can just display: none if we don't need them -->
 <body>
 <!-- 
  //Initial View (when opening Project)
@@ -23,11 +22,6 @@ else
     fetch/store data in local storage
 ** checkData in localstorage if empty before submitting
 -->
-<!-- <header>
-    not sure if we can use this bc from Asg1, up to you mozes
-    <img class="logo" src="./images/f1_logo.png" alt="logo"> 
-        <h2>F1 Dashboard Project</h2>
-</header> -->
 
 <main>
     <article id="home">
@@ -55,7 +49,7 @@ else
         <section id="races" hidden>
             <h2>Races</h2>
             <table>
-                <caption>Races for the selected season</caption>
+                <caption id="raceTitle"></caption>
                 <thead>
                     <tr>
                         <th>Round</th>
@@ -73,7 +67,7 @@ else
         <section id="qualifying" hidden>
             <h2>Qualifying Results</h2>
             <table>
-                <caption>Qualifying results for the selected race</caption>
+                <caption id="qualifyTitle"></caption>
                 <thead>
                     <tr>
                         <th>Pos</th>
@@ -94,7 +88,7 @@ else
                 <section id="results" hidden>
                     <h2>Results</h2>
                     <table>
-                        <caption>Results for the selected race</caption>
+                        <caption id="resultsTitle">Results for the selected race</caption>
                         <thead>
                             <tr>
                                 <th>Pos</th>

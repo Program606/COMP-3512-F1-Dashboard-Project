@@ -1,4 +1,5 @@
 function initRacesView(races, year) {
+    console.log("test");
     const raceList = document.getElementById("race-list");
     raceList.innerHTML = "";
 
