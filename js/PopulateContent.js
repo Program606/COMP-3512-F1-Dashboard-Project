@@ -7,12 +7,12 @@ function populateRaces(year){
     .then(data=>{
         data.forEach(e => {
             console.log(e.id)
-            createRacesHTML(e.round, e.name, year, e.id);
+            createRacesHTML(e.round, e.name, year, e.id, e.circuit);           
         });
     });
 };
 
-function createRacesHTML(round, name, year, id){
+function createRacesHTML(round, name, year, id, circuit){
     raceTitle = document.querySelector("#raceTitle");
     raceTitle.textContent = `Races for the year: ${year}`;
 
@@ -31,12 +31,20 @@ function createRacesHTML(round, name, year, id){
             newDataButton.setAttribute("value", id);
             newDataButton.textContent = "Results";
 
+            // Add circuit button
+            const circuitButton = document.createElement("button");
+            circuitButton.textContent = "View Circuit";
+            circuitButton.addEventListener("click", () => {
+                dialogs.showCircuitDialog(circuit); // Use the circuit object
+            });
+
         racelist.appendChild(newRow);
         newRow.appendChild(newRaceRoundRace);
         newRow.appendChild(newDataName);
 
         newRow.appendChild(newDataLink);
         newDataLink.appendChild(newDataButton);
+        newDataLink.appendChild(circuitButton);
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100 
 // function populateQualify(raceId){

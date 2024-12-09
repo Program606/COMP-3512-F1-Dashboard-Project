@@ -44,18 +44,22 @@ const dialogs = {
 
     showCircuitDialog(circuit) {
         const dialog = document.getElementById("circuit-dialog");
-        dialog.innerHTML = `
-          <h3>${circuit.name}</h3>
-          <p><strong>Location:</strong> ${circuit.location}, ${circuit.country}</p>
-          <p><strong>Altitude:</strong> ${circuit.alt || "N/A"} m</p>
-          <p><a href="${circuit.url}" target="_blank">Learn more on Wikipedia</a></p>
-          <button id="close-circuit-dialog">Close</button>
-        `;
 
-        this.showDialog(dialog);
-        document.getElementById("close-circuit-dialog").addEventListener("click", () => {
-            this.closeDialog(dialog);
-        });
+        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?id=${circuit.id}`)
+            .then(resp => resp.json())
+            .then(data => {
+                dialog.innerHTML = `
+                    <h3>${circuit.name}</h3>
+                    <p><strong>Location:</strong> ${circuit.location}, ${circuit.country}</p>
+                    <p><a href="${circuit.url}" target="_blank">Learn more on Wikipedia</a></p>
+                    <button id="close-circuit-dialog">Close</button>
+                `;
+
+                this.showDialog(dialog);
+                document.getElementById("close-circuit-dialog").addEventListener("click", () => {
+                    this.closeDialog(dialog);
+                });
+            })
     },
 
     showDialog(dialog) {
