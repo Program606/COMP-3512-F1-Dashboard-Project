@@ -39,24 +39,85 @@ function createRacesHTML(round, name, year, id){
         newDataLink.appendChild(newDataButton);
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100 
-function populateQualify(raceId){
-//
-fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
-    .then(resp=>resp.json())
-    .then(data=>{
-        data.forEach(e=>{
-            createQualifyHTML(
-                e.position, 
-                e.driver.forename, 
-                e.driver.surname, 
-                e.constructor.name, 
-                e.q1, 
-                e.q2, 
-                e.q3,
-                e.race.name
-            );
+// function populateQualify(raceId){
+// //
+// fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
+//     .then(resp=>resp.json())
+//     .then(data=>{
+//         data.forEach(e=>{
+//             createQualifyHTML(
+//                 e.position, 
+//                 e.driver.forename, 
+//                 e.driver.surname, 
+//                 e.constructor.name, 
+//                 e.q1, 
+//                 e.q2, 
+//                 e.q3,
+//                 e.race.name
+//             );
+//         });
+//     });
+// }
+
+function populateQualify(raceId) {
+    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            const qualifyTitle = document.querySelector("#qualifyTitle");
+            qualifyTitle.textContent = `Qualifying results for ${data[0]?.race?.name}`;
+
+            const qualifyList = document.querySelector("#qualifying-list");
+            qualifyList.innerHTML = ""; // Clear previous content
+
+            data.forEach(e => {
+                const row = document.createElement("tr");
+
+                const nameCell = document.createElement("td");
+                nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+
+                // Add driver button
+                const driverButton = document.createElement("button");
+                driverButton.textContent = "View Driver";
+                driverButton.addEventListener("click", () => {
+                    console.log(e.driver)
+                    dialogs.showDriverDialog(e.driver); // Use the driver object
+                });
+                nameCell.appendChild(driverButton);
+
+                const constructorCell = document.createElement("td");
+                constructorCell.textContent = e.constructor.name;
+
+                // Add constructor button
+                const constructorButton = document.createElement("button");
+                constructorButton.textContent = "View Constructor";
+                constructorButton.addEventListener("click", () => {
+                    console.log(e.constructor)
+                    dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+                });
+                constructorCell.appendChild(constructorButton);
+
+                const positionCell = document.createElement("td");
+                positionCell.textContent = e.position;
+
+                const q1Cell = document.createElement("td");
+                q1Cell.textContent = e.q1 || "N/A";
+
+                const q2Cell = document.createElement("td");
+                q2Cell.textContent = e.q2 || "N/A";
+
+                const q3Cell = document.createElement("td");
+                q3Cell.textContent = e.q3 || "N/A";
+
+                row.appendChild(positionCell);
+                row.appendChild(nameCell);
+                row.appendChild(constructorCell);
+                row.appendChild(q1Cell);
+                row.appendChild(q2Cell);
+                row.appendChild(q3Cell);
+
+                qualifyList.appendChild(row);
+            });
         });
-    });
 }
 function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
     qualifyTitle = document.querySelector("#qualifyTitle");
@@ -93,22 +154,76 @@ function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
 
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=1100
-function populateResults(raceId){
-    top3 = [];
-fetch(`https:www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
-    .then(resp=> resp.json())
-    .then(data=>{
-        data.forEach(e=>{
-            createResultsHTML(
-                e.position,
-                e.driver.forename,
-                e.driver.surname,
-                e.constructor.name,
-                e.laps,
-                e.points,
-                e.race.name)
+// function populateResults(raceId){
+//     top3 = [];
+// fetch(`https:www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
+//     .then(resp=> resp.json())
+//     .then(data=>{
+//         data.forEach(e=>{
+//             createResultsHTML(
+//                 e.position,
+//                 e.driver.forename,
+//                 e.driver.surname,
+//                 e.constructor.name,
+//                 e.laps,
+//                 e.points,
+//                 e.race.name)
+//         });
+//     })
+// }
+function populateResults(raceId) {
+    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            const resultsTitle = document.querySelector("#resultsTitle");
+            resultsTitle.textContent = `Results for ${data[0]?.race?.name || "this race"}`;
+
+            const resultsList = document.querySelector("#results-list");
+            resultsList.innerHTML = ""; // Clear previous content
+
+            data.forEach(e => {
+                const row = document.createElement("tr");
+
+                const nameCell = document.createElement("td");
+                nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+
+                // Add driver button
+                const driverButton = document.createElement("button");
+                driverButton.textContent = "View Driver";
+                driverButton.addEventListener("click", () => {
+                    dialogs.showDriverDialog(e.driver); // Use the driver object
+                });
+                nameCell.appendChild(driverButton);
+
+                const constructorCell = document.createElement("td");
+                constructorCell.textContent = e.constructor.name;
+
+                // Add constructor button
+                const constructorButton = document.createElement("button");
+                constructorButton.textContent = "View Constructor";
+                constructorButton.addEventListener("click", () => {
+                    dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+                });
+                constructorCell.appendChild(constructorButton);
+
+                const positionCell = document.createElement("td");
+                positionCell.textContent = e.position;
+
+                const lapsCell = document.createElement("td");
+                lapsCell.textContent = e.laps;
+
+                const pointsCell = document.createElement("td");
+                pointsCell.textContent = e.points;
+
+                row.appendChild(positionCell);
+                row.appendChild(nameCell);
+                row.appendChild(constructorCell);
+                row.appendChild(lapsCell);
+                row.appendChild(pointsCell);
+
+                resultsList.appendChild(row);
+            });
         });
-    })
 }
 function createResultsHTML(position, fname, lname, constructor,laps,points, raceName){
     resultsTitle = document.querySelector("#resultsTitle");

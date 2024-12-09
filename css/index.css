@@ -99,6 +99,78 @@ main section#results{
     background-color: rgb(226, 60, 190);
     grid-column: 3;
 }
-
-
+aside {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 80%;
+    z-index: 1000;
+  }
+  
+  aside::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  aside h3 {
+    margin: 0 0 15px;
+    font-size: 1.5em;
+  }
+  
+  aside p {
+    margin: 0 0 10px;
+  }
+  
+  aside button {
+    display: block;
+    margin: 10px auto 0;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  aside button:hover {
+    background-color: #0056b3;
+  }
+  
+  .dialogbox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 50%;
+    border-radius: 8px;
+    display: none; /* Use display: none instead of hidden */
+  }
+  
+  .dialogbox button {
+    margin-top: 10px;
+  }
+  
+  .dialogbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none; /* Initially hidden */
+  }
+  
 
