@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/index.css"></link>
     <script src="./js/index.js"></script>
+    <script src="./js/dialogBox.js"></script>
+    <script src="./js/PopulateRaces.js"></script>
     <title>F1 Project</title>
 </head>
 <!-- Note all markup should be in this file, we can just display: none if we don't need them -->
@@ -32,134 +34,87 @@ else
         <img class="logo" src="./images/f1_logo.png" alt="logo"> 
         <h2>F1 Dashboard Project</h2>
     </article>
+
     <article id="browse">
         <section id="intro">
             <p>Welcome to the F1 Information Hub! This project provides information about F1 races since 2020 </p>
-            <p>Group Members: Prince Manzano, Mozes </p>
+            <p>Group Members: Prince Manzano, Mozes Aung</p>
             <p>Github Repo:<a href="https://github.com/Program606/COMP-3512-F1-Dashboard-Project">COMP-3512-F1-Dashboard-Project</a></p>
             <p>The Technologies this project uses are JavaScript, PhP, Json, Html/Css, and Vscode</p>
-                <label for="season">Season</label>
-                <select id="season">
-                    <option>Select season</option>
-                </select>
-                
-            
-
-                
-            
+            <label for="season">Season</label>
+            <select id="season">
+                <option>Select season</option>
+            </select>
         </section>
+
         <section id="img">
             image here
         </section>
-        <section id="races">
-            <h2>(Year) Races</h2>
+        
+        <!-- Races Section -->
+        <section id="races" hidden>
+            <h2>Races</h2>
             <table>
-                <caption>
-                    Races for the given Year
-                </caption>
+                <caption>Races for the selected season</caption>
                 <thead>
                     <tr>
                         <th>Round</th>
-                        <th>Name</th>
+                        <th>Race Name</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
-                <!-- Temporary Markup for  table-->
-                <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>British Grand Prix</th>
-                        <th><a>Results</a></th>
-                    </tr>
-                    <tr>
-                        <th>2</th>
-                        <th>Italian Grand Prix</th>
-                        <th><a>Results</a></th>
-                    </tr>
+                <tbody id="race-list">
+                    <!-- should come from API or localStorage -->
                 </tbody>
             </table>
         </section>
-        <section id="qualifying">
-            <h2>RaceName, Round #, year, Circuit Name, Data, URL</h2>
+
+        <!-- Qualifying Section -->
+        <section id="qualifying" hidden>
+            <h2>Qualifying Results</h2>
             <table>
-                <caption>
-                    Race values is found here
-                </caption>
+                <caption>Qualifying results for the selected race</caption>
                 <thead>
                     <tr>
                         <th>Pos</th>
                         <th>Name</th>
-                        <th>Const</th>
+                        <th>Constructor</th>
                         <th>Q1</th>
                         <th>Q2</th>
                         <th>Q3</th>
                     </tr>
                 </thead>
-                <tbody> 
-                    <!-- Values in tables are links except Qualifying -->
-                    <tr>
-                        <td>1</td>
-                        <td>Max Verstappen</td>
-                        <td>Red Bull</td>
-                        <td>1:27:23</td>
-                        <td>1:23:23</td>
-                        <td>1:23:13</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Joe Random</td>
-                        <td>Haas</td>
-                        <td>1:46:23</td>
-                        <td>1:23:23</td>
-                        <td>1:24:23</td>
-                    </tr>
+                <tbody id="qualifying-list">
+                    <!-- should come from API or localStorage -->
                 </tbody>
             </table>
         </section>
-        <section id="results">
-            <h2>Results</h2>
-            <span>
-                <div>Max Verstappen</div>
-                <div>Charles LecLerc</div>
-                <div>Lewis Hamilton</div>
-            </span>
-            <table>
-                <caption>
-                    Race values is found here
-                </caption>
-                    <!-- Clicking on thead values change table order -->
-                <thead>
-                    <tr>
-                        <th>Pos</th>
-                        <th>Name</th>
-                        <th>Const</th>
-                        <th>Laps</th>
-                        <th>Pts</th>
-                    </tr>
-                </thead>
-                <tbody> 
-                    <!-- Values in tables are links except Qualifying -->
-                    <tr>
-                        <td>1</td>
-                        <td>Max Verstappen</td>
-                        <td>Red Bull</td>
-                        <td>46</td>
-                        <td>25</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Joe Random</td>
-                        <td>Haas</td>
-                        <td>46</td>
-                        <td>18</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </article>
+
+                <!-- Results Section -->
+                <section id="results" hidden>
+                    <h2>Results</h2>
+                    <table>
+                        <caption>Results for the selected race</caption>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Name</th>
+                                <th>Constructor</th>
+                                <th>Laps</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-list">
+                            <!-- WIP -->
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+
     <!-- Popups -->
-     <aside id="contructor"></aside>
-     <aside id="driver"></aside>
-     <aside id="circuit"></aside>
+     <aside id="contructor-dialog"></aside>
+     <aside id="driver-dialog"></aside>
+     <aside id="circuit-dialog"></aside>
 </main>
 
 
