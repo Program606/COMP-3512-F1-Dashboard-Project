@@ -58,6 +58,9 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
     fetchedData.forEach(e =>{
         const row = document.createElement("tr");
 
+                const positionCell = document.createElement("td");
+                positionCell.textContent = e.position;
+
                 const nameCell = document.createElement("td");
                 nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
                 nameCell.setAttribute('class', 'fav');
@@ -84,9 +87,6 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
                 });
                 constructorCell.appendChild(constructorButton);
 
-                const positionCell = document.createElement("td");
-                positionCell.textContent = e.position;
-
                 const q1Cell = document.createElement("td");
                 q1Cell.textContent = e.q1 || "N/A";
 
@@ -106,7 +106,7 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
                 qualifyList.appendChild(row);
             
     });
-    makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
+    makeTableSortable("#qualifying-list", ["number", "text", "text", "time", "time", "time"]);
 }
 function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
     qualifyTitle = document.querySelector("#qualifyTitle");
@@ -203,7 +203,7 @@ function populateResults(raceId) {
             makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
         });
 }
-function populateResultsReal(fetchedData){
+function populateResultsReal(fetchedData) {
     const resultsTitle = document.querySelector("#resultsTitle");
     resultsTitle.textContent = `Results for ${fetchedData[0]?.race?.name || "this race"}`;
 
@@ -217,7 +217,10 @@ function populateResultsReal(fetchedData){
             top3.push(e);
         }
         const row = document.createElement("tr");
-    
+
+        const positionCell = document.createElement("td");
+        positionCell.textContent = e.position;
+
         const nameCell = document.createElement("td");
         nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
         nameCell.setAttribute('class', 'fav');
@@ -244,9 +247,6 @@ function populateResultsReal(fetchedData){
             dialogs.showConstructorDialog(e.constructor); // Use the constructor object
         });
         constructorCell.appendChild(constructorButton);
-    
-        const positionCell = document.createElement("td");
-        positionCell.textContent = e.position;
     
         const lapsCell = document.createElement("td");
         lapsCell.textContent = e.laps;
