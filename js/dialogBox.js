@@ -1,135 +1,192 @@
 const dialogs = {
     showDriverDialog(driver) {
-        const dialog = document.getElementById("driver-dialog");
-    
-        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/drivers.php?ref=${driver.ref}`)
-            .then(resp => resp.json())
-            .then(driverData => {
-                fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/driverResults.php?driver=${driver.ref}&season=2023`)
-                    .then(resp => resp.json())
-                    .then(resultsData => {
-                        let resultsTable = `
-                            <h4>Races Participated:</h4>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Round</th>
-                                        <th>Race Name</th>
-                                        <th>Position</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        `;
-    
-                        resultsData.forEach(result => {
-                            resultsTable += `
-                                <tr>
-                                    <td>${result.round}</td>
-                                    <td>${result.name}</td>
-                                    <td>${result.positionOrder || "N/A"}</td>
-                                </tr>
-                            `;
-                        });
-    
-                        resultsTable += `
-                                </tbody>
-                            </table>
-                        `;
-    
-                        dialog.innerHTML = `
-                            <h3>${driverData.forename} ${driverData.surname}</h3>
-                            <p><strong>Driver Number:</strong> ${driverData.driverId}</p>
-                            <p><strong>Code:</strong> ${driverData.code}</p>
-                            <p><strong>Date of Birth:</strong> ${driverData.dob}</p>
-                            <p><strong>Nationality:</strong> ${driverData.nationality}</p>
-                            <p><a href="${driverData.url}" target="_blank">Learn more on Wikipedia</a></p>
-                            ${resultsTable}
-                            <button id="close-driver-dialog">Close</button>
-                        `;
-    
-                        this.showDialog(dialog);
-                        document.getElementById("close-driver-dialog").addEventListener("click", () => {
-                            this.closeDialog(dialog);
-                        });
-                    });
-            });
-    },    
+        const dialog = document.querySelector("#driver-dialog");
 
-    showConstructorDialog(constructor) {
-        const dialog = document.getElementById("constructor-dialog");
-    
-        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?ref=${constructor.ref}`)
-            .then(resp => resp.json())
-            .then(constructorData => {
-                fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructor.ref}&season=2023`)
-                    .then(resp => resp.json())
-                    .then(resultsData => {
-                        let resultsTable = `
-                            <h4>Races Participated:</h4>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Round</th>
-                                        <th>Race Name</th>
-                                        <th>Driver</th>
-                                        <th>Position</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        `;
-                        console.log(constructor.ref);
-                        resultsData.forEach(result => {
-                            resultsTable += `
-                                <tr>
-                                    <td>${result.round}</td>
-                                    <td>${result.name}</td>
-                                    <td>${result.forename} ${result.surname}</td>
-                                    <td>${result.positionOrder || "N/A"}</td>
-                                    <td>${result.grid || "N/A"}</td>
-                                </tr>
-                            `;
-                        });
-    
-                        resultsTable += `
-                                </tbody>
-                            </table>
-                        `;
-    
-                        dialog.innerHTML = `
-                            <h3>${constructorData.name}</h3>
-                            <p><strong>Nationality:</strong> ${constructorData.nationality}</p>
-                            <p><a href="${constructorData.url}" target="_blank">Learn more on Wikipedia</a></p>
-                            ${resultsTable}
-                            <button id="close-constructor-dialog">Close</button>
-                        `;
-    
-                        this.showDialog(dialog);
-                        document.getElementById("close-constructor-dialog").addEventListener("click", () => {
-                            this.closeDialog(dialog);
-                        });
-                    });
-            });
-    },    
+        let storedDrivers = retrieveStorage("drivers");
+        const driverData = storedDrivers.find((d) => d.driverId === driver.driverId);
 
-    showCircuitDialog(circuit) {
-        const dialog = document.getElementById("circuit-dialog");
+        if (driverData) {
+            this.populateDriverDialog(driverData, dialog);
+        } else {
+            fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/drivers.php?ref=${driver.ref}`)
+                .then((resp) => resp.json())
+                .then((data) => {
+                    storedDrivers.push(data);
+                    updateStorage("drivers", storedDrivers);
+                    this.populateDriverDialog(data, dialog);
+                });
+        }
+    },
 
-        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?id=${circuit.id}`)
-            .then(resp => resp.json())
-            .then(data => {
-                dialog.innerHTML = `
-                    <h3>${circuit.name}</h3>
-                    <p><strong>Location:</strong> ${circuit.location}, ${circuit.country}</p>
-                    <p><a href="${circuit.url}" target="_blank">Learn more on Wikipedia</a></p>
-                    <button id="close-circuit-dialog">Close</button>
+    populateDriverDialog(driverData, dialog) {
+        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/driverResults.php?driver=${driverData.driverRef}&season=${driverData.season || 2023}`)
+            .then((resp) => resp.json())
+            .then((resultsData) => {
+                let resultsTable = `
+                    <h4>Races Participated:</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Round</th>
+                                <th>Race Name</th>
+                                <th>Position</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
 
-                this.showDialog(dialog);
-                document.getElementById("close-circuit-dialog").addEventListener("click", () => {
+                resultsData.forEach(result => {
+                    resultsTable += `
+                        <tr>
+                            <td>${result.round}</td>
+                            <td>${result.name}</td>
+                            <td>${result.positionOrder || "N/A"}</td>
+                        </tr>
+                    `;
+                });
+
+                resultsTable += `
+                        </tbody>
+                    </table>
+                `;
+
+                dialog.innerHTML = `
+                    <button class="close-btn top-right" id="close-driver-dialog-top">×</button>
+                    <h3>${driverData.forename} ${driverData.surname}</h3>
+                    <p><strong>Driver Number:</strong> ${driverData.driverId}</p>
+                    <p><strong>Code:</strong> ${driverData.code}</p>
+                    <p><strong>Date of Birth:</strong> ${driverData.dob}</p>
+                    <p><strong>Nationality:</strong> ${driverData.nationality}</p>
+                    <p><a href="${driverData.url}" target="_blank">Learn more on Wikipedia</a></p>
+                    ${resultsTable}
+                    <button class="close-btn bottom" id="close-driver-dialog-bottom">Close</button>
+                `;
+
+                document.querySelector("#close-driver-dialog-top").addEventListener("click", () => {
                     this.closeDialog(dialog);
                 });
-            })
+
+                document.querySelector("#close-driver-dialog-bottom").addEventListener("click", () => {
+                    this.closeDialog(dialog);
+                });
+
+                this.showDialog(dialog);
+            });
+    },
+
+    showConstructorDialog(constructor) {
+        const dialog = document.querySelector("#constructor-dialog");
+
+        let storedConstructors = retrieveStorage("constructors");
+        const constructorData = storedConstructors.find((c) => c.constructorId === constructor.constructorId);
+
+        if (constructorData) {
+            this.populateConstructorDialog(constructorData, dialog);
+        } else {
+            fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?ref=${constructor.ref}`)
+                .then((resp) => resp.json())
+                .then((data) => {
+                    storedConstructors.push(data);
+                    updateStorage("constructors", storedConstructors);
+                    this.populateConstructorDialog(data, dialog);
+                });
+        }
+    },
+
+    populateConstructorDialog(constructorData, dialog) {
+        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorData.constructorRef}&season=${constructorData.season || 2023}`)
+            .then((resp) => resp.json())
+            .then((resultsData) => {
+                let resultsTable = `
+                    <h4>Races Participated:</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Round</th>
+                                <th>Race Name</th>
+                                <th>Driver</th>
+                                <th>Position</th>
+                                <th>Grid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                resultsData.forEach(result => {
+                    resultsTable += `
+                        <tr>
+                            <td>${result.round}</td>
+                            <td>${result.name}</td>
+                            <td>${result.forename} ${result.surname}</td>
+                            <td>${result.positionOrder || "N/A"}</td>
+                            <td>${result.grid || "N/A"}</td>
+                        </tr>
+                    `;
+                });
+
+                resultsTable += `
+                        </tbody>
+                    </table>
+                `;
+
+                dialog.innerHTML = `
+                    <button class="close-btn top-right" id="close-constructor-dialog-top">×</button>
+                    <h3>${constructorData.name}</h3>
+                    <p><strong>Nationality:</strong> ${constructorData.nationality}</p>
+                    <p><a href="${constructorData.url}" target="_blank">Learn more on Wikipedia</a></p>
+                    ${resultsTable}
+                    <button class="close-btn bottom" id="close-constructor-dialog-bottom">Close</button>
+                `;
+
+                document.querySelector("#close-constructor-dialog-top").addEventListener("click", () => {
+                    this.closeDialog(dialog);
+                });
+
+                document.querySelector("#close-constructor-dialog-bottom").addEventListener("click", () => {
+                    this.closeDialog(dialog);
+                });
+
+                this.showDialog(dialog);
+            });
+    },
+
+    showCircuitDialog(circuit) {
+        const dialog = document.querySelector("#circuit-dialog");
+
+        let storedCircuits = retrieveStorage("circuits");
+        const circuitData = storedCircuits.find((c) => c.id === circuit.id);
+
+        if (circuitData) {
+            this.populateCircuitDialog(circuitData, dialog);
+        } else {
+            fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?id=${circuit.id}`)
+                .then((resp) => resp.json())
+                .then((data) => {
+                    storedCircuits.push(data);
+                    updateStorage("circuits", storedCircuits);
+                    this.populateCircuitDialog(data, dialog);
+                });
+        }
+    },
+
+    populateCircuitDialog(circuitData, dialog) {
+        dialog.innerHTML = `
+            <button class="close-btn top-right" id="close-circuit-dialog-top">×</button>
+            <h3>${circuitData.name}</h3>
+            <p><strong>Location:</strong> ${circuitData.location}, ${circuitData.country}</p>
+            <p><a href="${circuitData.url}" target="_blank">Learn more on Wikipedia</a></p>
+            <button class="close-btn bottom" id="close-circuit-dialog-bottom">Close</button>
+        `;
+
+        document.querySelector("#close-circuit-dialog-top").addEventListener("click", () => {
+            this.closeDialog(dialog);
+        });
+
+        document.querySelector("#close-circuit-dialog-bottom").addEventListener("click", () => {
+            this.closeDialog(dialog);
+        });
+
+        this.showDialog(dialog);
     },
 
     showDialog(dialog) {
@@ -149,7 +206,6 @@ const dialogs = {
         if (!overlay) {
             overlay = document.createElement("div");
             overlay.className = "dialogbox-overlay";
-            overlay.style.display = "none"; // Ensure it's hidden by default
             document.body.appendChild(overlay);
             overlay.addEventListener("click", () => {
                 document.querySelectorAll(".dialogbox").forEach((dialog) => {
