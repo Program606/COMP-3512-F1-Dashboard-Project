@@ -47,7 +47,7 @@ function createRacesHTML(round, name, year, id, circuit){
         newDataLink.appendChild(circuitButton);
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100 
-function populateQualifyReal(fetchedData){
+    function populateQualifyReal(fetchedData){
     const qualifyTitle = document.querySelector("#qualifyTitle");
     qualifyTitle.textContent = `Qualifying results for ${fetchedData[0]?.race?.name}`;
 
@@ -203,8 +203,10 @@ function populateResultsReal(fetchedData){
 
     const resultsList = document.querySelector("#results-list");
     resultsList.innerHTML = ""; // Clear previous content
-    top3 = [];
+    const top3 = [];
+    
     fetchedData.forEach(e=>{
+
         if(e.position < 4){
             top3.push(e);
         }

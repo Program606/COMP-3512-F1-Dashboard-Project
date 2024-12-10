@@ -38,11 +38,10 @@ document.addEventListener("DOMContentLoaded", () =>{
         document.querySelector("main section#qualifying").style.display = "block";
         document.querySelector("main section#results").style.display = "block";
 
-        checkPopulateQualify(raceId);
-        checkPopulateResults(raceId);
-        populateResults(raceId);
+        fetchingQualify(raceId);
+        
+        fetchingResults(raceId);
     };
-
     });
 });
 
@@ -82,32 +81,39 @@ function fetchingData(localSavedData, year){
         }
 }
 function fetchingQualify(raceId){
-    qualifyData =[];
-    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
-        .then(resp => resp.json())
-        .then(data => {
-            data.forEach(e => {
-                qualifyData.push(e);
-                updateStorage('qualifyData', qualifyData);
+    if(localStorage.getItem('qualifyData'+raceId) === null){
+        qualifyData =[];
+        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
+            .then(resp => resp.json())
+            .then(data => {
+                data.forEach(e => {
+                    qualifyData.push(e);
+                    updateStorage('qualifyData'+raceId, qualifyData);
+                });
+                populateQualifyReal(qualifyData);
             });
-        });
-}
-function checkPopulateQualify(raceId){
-    //if qualifyResult is in localStorage
-    fetchingQualify(raceId);
-    populateQualifyReal(retrieveStorage('qualifyData'));
+    }else{
+        populateQualifyReal(retrieveStorage('qualifyData'+raceId));
+    }
     
 }
-function checkPopulateResults(raceId){
-    resultData =[];
-    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
-        .then(resp => resp.json())
-        .then(data => {
-            data.forEach(e => {
-                resultData.push(e);
-                updateStorage('resultData', resultData);
+function fetchingResults(raceId){
+    
+    if(localStorage.getItem('resultData'+raceId) === null){
+        resultData =[];
+        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
+            .then(resp => resp.json())
+            .then(data => {
+                data.forEach(e => {
+                    resultData.push(e);
+                    updateStorage('resultData'+raceId, resultData);
+                });
+                populateResultsReal(resultData);
             });
-        });
+    }else{
+        populateResultsReal(retrieveStorage('resultData'+raceId));
+    }
+    
 }
 function retrieveStorage(key){
     return JSON.parse(localStorage.getItem(key)) || []; 
