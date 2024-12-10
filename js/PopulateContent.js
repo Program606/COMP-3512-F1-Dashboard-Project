@@ -305,15 +305,15 @@ function createTop3HTML(top3){
             place = document.createElement('img');
             switch (d.position){
                 case 1:
-                    place.setAttribute("src", '../images/1stPlace.jpg');
+                    place.setAttribute("src", '../images/1stPlace.png');
                     top3Div.style.backgroundColor = "gold"
                     break
                 case 2:
-                    place.setAttribute("src", '../images/2ndPlace.webp');
+                    place.setAttribute("src", '../images/2ndPlace.png');
                     top3Div.style.backgroundColor = "silver"
                     break;
                 case 3:
-                    place.setAttribute("src", '../images/3rdPlace.webp');
+                    place.setAttribute("src", '../images/3rdPlace.png');
                     top3Div.style.backgroundColor = "#FF5733"
                     break;
             }
