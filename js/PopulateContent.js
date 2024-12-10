@@ -35,6 +35,7 @@ function createRacesHTML(round, name, year, id, circuit){
             const circuitButton = document.createElement("button");
             circuitButton.textContent = "View Circuit";
             circuitButton.addEventListener("click", () => {
+                event.stopPropagation();
                 dialogs.showCircuitDialog(circuit); // Use the circuit object
             });
 
