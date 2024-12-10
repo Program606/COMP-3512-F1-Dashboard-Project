@@ -23,6 +23,8 @@ function createRacesHTML(round, name, year, id, circuit){
 
             newDataName = document.createElement("td");
             newDataName.textContent = name;
+            newDataName.setAttribute('class','fav');
+            checkFavorite(newDataName);
 
             newDataLink = document.createElement("td");
 
@@ -53,30 +55,31 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
 
     const qualifyList = document.querySelector("#qualifying-list");
     qualifyList.innerHTML = ""; // Clear previous content
-    
     fetchedData.forEach(e =>{
         const row = document.createElement("tr");
 
                 const nameCell = document.createElement("td");
                 nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+                nameCell.setAttribute('class', 'fav');
+                checkFavorite(nameCell);
 
                 // Add driver button
                 const driverButton = document.createElement("button");
                 driverButton.textContent = "View Driver";
                 driverButton.addEventListener("click", () => {
-                    console.log(e.driver)
                     dialogs.showDriverDialog(e.driver); // Use the driver object
                 });
                 nameCell.appendChild(driverButton);
 
                 const constructorCell = document.createElement("td");
                 constructorCell.textContent = e.constructor.name;
+                constructorCell.setAttribute('class', 'fav');
+                checkFavorite(constructorCell);
 
                 // Add constructor button
                 const constructorButton = document.createElement("button");
                 constructorButton.textContent = "View Constructor";
                 constructorButton.addEventListener("click", () => {
-                    console.log(e.constructor)
                     dialogs.showConstructorDialog(e.constructor); // Use the constructor object
                 });
                 constructorCell.appendChild(constructorButton);
@@ -217,7 +220,9 @@ function populateResultsReal(fetchedData){
     
         const nameCell = document.createElement("td");
         nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
-    
+        nameCell.setAttribute('class', 'fav');
+        checkFavorite(nameCell);
+
         // Add driver button
         const driverButton = document.createElement("button");
         driverButton.textContent = "View Driver";
@@ -228,6 +233,9 @@ function populateResultsReal(fetchedData){
     
         const constructorCell = document.createElement("td");
         constructorCell.textContent = e.constructor.name;
+        constructorCell.setAttribute('class', 'fav');
+        checkFavorite(constructorCell);
+
     
         // Add constructor button
         const constructorButton = document.createElement("button");
@@ -269,7 +277,7 @@ function createResultsHTML(position, fname, lname, constructor,laps,points, race
 
         newName = document.createElement("td");
         newName.textContent = fname + " " + lname;
-        
+                
         newConstructorName = document.createElement("td");
         newConstructorName.textContent = constructor;
 

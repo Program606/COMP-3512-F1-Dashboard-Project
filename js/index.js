@@ -55,12 +55,39 @@ document.addEventListener("DOMContentLoaded", () =>{
         fetchingResults(raceId);
     };
     });
+    favoritesList = retrieveStorage('favorites');
+
+    browse = document.querySelector('#browse');
+    browse.addEventListener("click", e=>{
+        if (e.target.getAttribute('class') === 'fav') { 
+            if (e.target.style.backgroundColor === "green"){
+                e.target.style.backgroundColor = ""; 
+                favoritesList.pop(e.target.textContent);
+            }else { 
+                e.target.style.backgroundColor = "green";
+                favoritesList.push(e.target.textContent); 
+            }
+            checkFavorite(newDataName);
+        }
+        updateStorage('favorites', favoritesList);
+    });
 });
+function checkFavorite(favData){
+    
+    // console.log('favData is '+favData.textContent);
+    // console.log("storage is "+retrieveStorage('favorites'));
+    // console.log("inside? "+retrieveStorage('favorites').includes(favData.textContent));
+    if(retrieveStorage('favorites').includes(favData.textContent) || 
+        retrieveStorage('favorites').includes(favData.textContent +"View Driver") ||
+        retrieveStorage('favorites').includes(favData.textContent +"View Constructor")) {
+        
+        favData.style.backgroundColor = "green";
+    }
+};
 
 function toRacesView(){
     document.querySelector("main section#intro").style.display = "none";
     document.querySelector("main section#img").style.display = "none";
-
     document.querySelector("main section#races").style.display = "block";
     
 };
