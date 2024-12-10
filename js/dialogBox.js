@@ -61,7 +61,7 @@ const dialogs = {
         fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?ref=${constructor.ref}`)
             .then(resp => resp.json())
             .then(constructorData => {
-                fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/driverResults.php?constructor=${constructor.ref}&season=2023`)
+                fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructor.ref}&season=2023`)
                     .then(resp => resp.json())
                     .then(resultsData => {
                         let resultsTable = `
