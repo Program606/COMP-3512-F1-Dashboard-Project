@@ -103,6 +103,7 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
                 qualifyList.appendChild(row);
             
     });
+    makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
 }
 function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
     qualifyTitle = document.querySelector("#qualifyTitle");
@@ -195,6 +196,8 @@ function populateResults(raceId) {
                 resultsList.appendChild(row);
             });
             createTop3HTML(top3);
+
+            makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
         });
 }
 function populateResultsReal(fetchedData){
@@ -252,6 +255,8 @@ function populateResultsReal(fetchedData){
         resultsList.appendChild(row);
     });
     createTop3HTML(top3);
+
+    makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
 }
 function createResultsHTML(position, fname, lname, constructor,laps,points, raceName){
     resultsTitle = document.querySelector("#resultsTitle");
@@ -314,4 +319,40 @@ function createTop3HTML(top3){
         top3Div.appendChild(topName);
     });
     
+}
+
+function makeTableSortable(tableSelector, columnTypes) {
+    const table = document.querySelector(tableSelector).closest("table");
+    const headers = table.querySelectorAll("th");
+
+    headers.forEach((header, index) => {
+        header.style.cursor = "pointer"; // Add visual indication that it's clickable
+        header.addEventListener("click", () => {
+            const rows = Array.from(table.querySelector("tbody").rows);
+            const type = columnTypes[index];
+
+            const sortedRows = rows.sort((a, b) => {
+                const aText = a.cells[index].textContent.trim();
+                const bText = b.cells[index].textContent.trim();
+
+                if (type === "number") {
+                    return parseFloat(aText) - parseFloat(bText);
+                } else if (type === "time") {
+                    return timeToSeconds(aText) - timeToSeconds(bText);
+                } else {
+                    return aText.localeCompare(bText);
+                }
+            });
+
+            const tbody = table.querySelector("tbody");
+            tbody.innerHTML = "";
+            sortedRows.forEach(row => tbody.appendChild(row));
+        });
+    });
+}
+
+function timeToSeconds(time) {
+    if (time === "N/A") return Number.MAX_SAFE_INTEGER;
+    const [minutes, seconds] = time.split(":").map(Number);
+    return minutes * 60 + seconds;
 }

@@ -8,6 +8,19 @@ array=["2020","2021","2022","2023"];
 document.addEventListener("DOMContentLoaded", () =>{
     select = document.querySelector("#season");
 
+    document.querySelector("#back-to-home").addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+    
+        // Hide other sections
+        document.querySelector("main section#races").style.display = "none";
+        document.querySelector("main section#qualifying").style.display = "none";
+        document.querySelector("main section#results").style.display = "none";
+    
+        // Show home section
+        document.querySelector("main section#intro").style.display = "block";
+        document.querySelector("main section#img").style.display = "block";
+    }); 
+
     //hiding Races View
     document.querySelector("main section#races").style.display = "none";
     document.querySelector("main section#qualifying").style.display = "none";
