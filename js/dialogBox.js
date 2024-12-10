@@ -137,26 +137,27 @@ const dialogs = {
         dialog.style.display = "block";
         overlay.style.display = "block";
     },
-
+    
     closeDialog(dialog) {
         dialog.style.display = "none";
-        const overlay = document.querySelector(".modal-overlay");
+        const overlay = document.querySelector(".dialogbox-overlay");
         if (overlay) overlay.style.display = "none";
     },
-
+    
     getOrCreateOverlay() {
-        let overlay = document.querySelector(".modal-overlay");
+        let overlay = document.querySelector(".dialogbox-overlay");
         if (!overlay) {
             overlay = document.createElement("div");
-            overlay.className = "modal-overlay";
+            overlay.className = "dialogbox-overlay";
+            overlay.style.display = "none"; // Ensure it's hidden by default
             document.body.appendChild(overlay);
             overlay.addEventListener("click", () => {
-                document.querySelectorAll(".modal").forEach((dialog) => {
+                document.querySelectorAll(".dialogbox").forEach((dialog) => {
                     dialog.style.display = "none";
                 });
                 overlay.style.display = "none";
             });
         }
         return overlay;
-    }
+    } 
 };

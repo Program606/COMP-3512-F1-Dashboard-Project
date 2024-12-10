@@ -1,176 +1,208 @@
-
-:root{
-    /* Got colors by using https://www.formula1.com/ website and using a color extractor
+:root {
+  /* Got colors by using https://www.formula1.com/ website and using a color extractor
     https://www.colorcombos.com/combotester.html?rnd=0&color0=d31411&color1=ffffff&color2=ff8000&color3=3671c6&color4=e80020&color5=27f4d2&color6=814264&color7=229971&color8=6692ff&color9=b6babd&color10=64c4ff&color11=52e252&color12=0093cc&color13=604800&color14=aaaaac&color15=142756&color16=221977 */
-    --f1Red: #d31411;
-    --f1Black:#142756;
-    
-}
-header { 
-    justify-content: space-between;
-    display: inline-flex;
-    width: 100%;
-    height: 100%;
-    padding: auto;
-    box-shadow: #ccc;
-    border: 1px solid #ccc;
-    border-color: var(--f1Black);
-    background-color: var(--f1Red);
-    color: white;
-    font-family:'Courier New', Courier, monospace;
+  --f1Red: #d31411;
+  --f1Black: #142756;
+
 }
 
-*{
-    font-family:'Courier New', Courier, monospace;
+header {
+  justify-content: space-between;
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  padding: auto;
+  box-shadow: #ccc;
+  border: 1px solid #ccc;
+  border-color: var(--f1Black);
+  background-color: var(--f1Red);
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-li{
-    list-style: none;
+* {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+li {
+  list-style: none;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
-.logo{
-    background-color: var(--f1Red);
-    width:150px;
-    height: 35px;
-    justify-self: flex-start;
-    align-self: center;
-    padding-left: 10px;
+.logo {
+  background-color: var(--f1Red);
+  width: 150px;
+  height: 35px;
+  justify-self: flex-start;
+  align-self: center;
+  padding-left: 10px;
 }
+
 /* Styles above From Asg 1. Moses up to you if u want to keep, not sure if allowed*/
-main{
-    background-color: blanchedalmond;
-    /* not sure why when I put both (width/height) to percent, doesn;t show */
-    width: 100%;
-    height: 580px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-main article#home{
-    width: 100%;
-    height: 20%;
-    background-color: var(--f1Red);
-    color: white;
-    font-family:'Courier New', Courier, monospace;
-    justify-content: space-between;
-    display: inline-flex;
-    background-color: #d31411;
-}
-main article#browse{
-    width: 100%;
-    height: 80%;
-    background-color: #142756;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr; 
-}
-main section#intro{
-    background-color: beige;
-    grid-column: 1/1;
-}
-main section#img{
-    background-color: yellowgreen;
-    grid-column: 2/4;
+main {
+  background-color: blanchedalmond;
+  /* not sure why when I put both (width/height) to percent, doesn;t show */
+  width: 100%;
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+main article#home {
+  width: 100%;
+  height: 20%;
+  background-color: var(--f1Red);
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  justify-content: space-between;
+  display: inline-flex;
+  background-color: #d31411;
+}
 
-main section#races{
-    background-color: rgb(30, 167, 126);
-    grid-column: 1;
+main article#browse {
+  width: 100%;
+  height: 80%;
+  background-color: #142756;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
 }
-main section#qualifying{
-    background-color: rgb(94, 42, 214);
-    grid-column: 2;
+
+main section#intro {
+  background-color: beige;
+  grid-column: 1/1;
 }
-main section#results{
-    background-color: rgb(226, 60, 190);
-    grid-column: 3;
+
+main section#img {
+  background-color: yellowgreen;
+  grid-column: 2/4;
 }
+
+main section#races {
+  background-color: rgb(30, 167, 126);
+  grid-column: 1;
+}
+
+main section#qualifying {
+  background-color: rgb(94, 42, 214);
+  grid-column: 2;
+}
+
+main section#results {
+  background-color: rgb(226, 60, 190);
+  grid-column: 3;
+}
+
 aside {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    color: #000;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    max-width: 80%;
-    z-index: 1000;
-  }
-  
-  aside::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  aside h3 {
-    margin: 0 0 15px;
-    font-size: 1.5em;
-  }
-  
-  aside p {
-    margin: 0 0 10px;
-  }
-  
-  aside button {
-    display: block;
-    margin: 10px auto 0;
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  aside button:hover {
-    background-color: #0056b3;
-  }
-  
-  .dialogbox {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 50%;
-    border-radius: 8px;
-    display: none; /* Use display: none instead of hidden */
-  }
-  
-  .dialogbox button {
-    margin-top: 10px;
-  }
-  
-  .dialogbox-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none; /* Initially hidden */
-  }
-  
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 80%;
+  z-index: 1000;
+}
+
+aside::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+aside h3 {
+  margin: 0 0 15px;
+  font-size: 1.5em;
+}
+
+aside p {
+  margin: 0 0 10px;
+}
+
+aside button {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+aside button:hover {
+  background-color: #0056b3;
+}
+
+.dialogbox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 90%;
+  display: none;
+}
+
+.dialogbox table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.dialogbox th,
+.dialogbox td {
+  border: 1px solid #fff;
+  padding: 5px;
+  text-align: left;
+}
+
+.dialogbox th {
+  background-color: #444;
+}
+
+.dialogbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
 
