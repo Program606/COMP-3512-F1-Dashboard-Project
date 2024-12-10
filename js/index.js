@@ -13,11 +13,6 @@ document.addEventListener("DOMContentLoaded", () =>{
     document.querySelector("main section#qualifying").style.display = "none";
     document.querySelector("main section#results").style.display = "none";
 
-    //hiding Popups
-    // document.querySelector("main aside#constructor").style.display = "none";
-    // document.querySelector("main aside#driver").style.display = "none";
-    // document.querySelector("main aside#circuit").style.display = "none";
-
     //populating seasons
     array.forEach(year => {
         opt = document.createElement("option");
@@ -61,7 +56,6 @@ function toRacesView(){
 
 function fetchingData(localSavedData, year){
         //fetching
-        // populateRaces(selectedYear);
 
         //if data is not found in local storage
         if(localSavedData.length == 0){
