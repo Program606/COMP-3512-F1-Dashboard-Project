@@ -1,5 +1,4 @@
-
-apiUrl = 'https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season='
+const apiUrl = "https://www.randyconnolly.com/funwebdev/3rd/api/f1";
 
 
 

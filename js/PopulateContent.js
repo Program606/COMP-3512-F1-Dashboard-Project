@@ -57,8 +57,8 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
     fetchedData.forEach(e => {
         const row = document.createElement("tr");
 
-        const positionCell = document.createElement("td");
-        positionCell.textContent = e.position;
+                const positionCell = document.createElement("td");
+                positionCell.textContent = e.position;
 
                 const nameCell = document.createElement("td");
                 nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
