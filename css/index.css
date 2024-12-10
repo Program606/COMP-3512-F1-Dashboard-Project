@@ -149,28 +149,54 @@ aside {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 800px;
     background-color: white;
-    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 50%;
-    border-radius: 8px;
-    display: none; /* Use display: none instead of hidden */
+    overflow-y: auto;
+    max-height: 90%;
+    display: none;
   }
   
-  .dialogbox button {
+  .dialogbox table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 10px;
+  }
+  
+  .dialogbox th,
+  .dialogbox td {
+    border: 1px solid #fff;
+    padding: 5px;
+    text-align: left;
+  }
+  
+  .dialogbox th {
+    background-color: #444;
   }
   
   .dialogbox-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 999;
-    display: none; /* Initially hidden */
+    display: none;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
   }
   span#top3 {
     display: flex;
