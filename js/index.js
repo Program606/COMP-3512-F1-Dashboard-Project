@@ -1,14 +1,10 @@
-const apiUrl = "https://www.randyconnolly.com/funwebdev/3rd/api/f1";
-
-
-
-array=["2020","2021","2022","2023"];
+arrayYear=["2020","2021","2022","2023"];
 
 document.addEventListener("DOMContentLoaded", () =>{
-    select = document.querySelector("#season");
+    const select = document.querySelector("#season");
 
-    document.querySelector("#back-to-home").addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent default anchor behavior
+    document.querySelector("#back-to-home").addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent default anchor behavior
     
         // Hide other sections
         document.querySelector("main section#races").style.display = "none";
@@ -26,27 +22,26 @@ document.addEventListener("DOMContentLoaded", () =>{
     document.querySelector("main section#results").style.display = "none";
 
     //populating seasons
-    array.forEach(year => {
-        opt = document.createElement("option");
+    arrayYear.forEach(year => {
+        const opt = document.createElement("option");
         opt.setAttribute("value", year);
         opt.textContent = year;
         select.appendChild(opt);
     });
     const localSavedData = retrieveStorage('races');
-    //Event Listenerts
-    select.addEventListener("change", e=>{
-    selectedYear = e.target.value;
-    if(e.target.nodeName.toLowerCase() == "select"){
+    //Event Listeners
+    select.addEventListener("change", event=>{
+    let selectedYear = event.target.value;
+    if(event.target.nodeName.toLowerCase() == "select"){
         toRacesView();
         fetchingData(localSavedData, selectedYear);
         };
     });
-
-    resultPortion = document.querySelector("#races");
+    const resultPortion = document.querySelector("#races");
     
-    resultPortion.addEventListener("click", e=>{
-    if(e.target.nodeName.toLowerCase() == "button"){
-        raceId = e.target.value;
+    resultPortion.addEventListener("click", event=>{
+    if(event.target.nodeName.toLowerCase() == "button"){
+        let raceId = event.target.value;
         document.querySelector("main section#qualifying").style.display = "block";
         document.querySelector("main section#results").style.display = "block";
 
@@ -54,46 +49,30 @@ document.addEventListener("DOMContentLoaded", () =>{
         fetchingResults(raceId);
     };
     });
-    favoritesList = retrieveStorage('favorites');
+    const favoritesList = retrieveStorage('favorites');
 
     browse = document.querySelector('#browse');
-    browse.addEventListener("click", e=>{
-        if (e.target.getAttribute('class') === 'fav') { 
-            if (e.target.style.backgroundColor === "green"){
-                e.target.style.backgroundColor = ""; 
-                favoritesList.pop(e.target.textContent);
+    browse.addEventListener("click", event=>{
+        if (event.target.getAttribute('class') === 'fav') { 
+            if (event.target.style.backgroundColor === "green"){
+                event.target.style.backgroundColor = ""; 
+                favoritesList.pop(event.target.textContent);
             }else { 
-                e.target.style.backgroundColor = "green";
-                favoritesList.push(e.target.textContent); 
+                event.target.style.backgroundColor = "green";
+                favoritesList.push(event.target.textContent); 
             }
             checkFavorite(newDataName);
         }
         updateStorage('favorites', favoritesList);
     });
 });
-function checkFavorite(favData){
-    
-    // console.log('favData is '+favData.textContent);
-    // console.log("storage is "+retrieveStorage('favorites'));
-    // console.log("inside? "+retrieveStorage('favorites').includes(favData.textContent));
-    if(retrieveStorage('favorites').includes(favData.textContent) || 
-        retrieveStorage('favorites').includes(favData.textContent +"View Driver") ||
-        retrieveStorage('favorites').includes(favData.textContent +"View Constructor")) {
-        
-        favData.style.backgroundColor = "green";
-    }
-};
-
 function toRacesView(){
     document.querySelector("main section#intro").style.display = "none";
     document.querySelector("main section#img").style.display = "none";
     document.querySelector("main section#races").style.display = "block";
     
 };
-
 function fetchingData(localSavedData, year){
-        //fetching
-
         //if data is not found in local storage
         if(localSavedData.length == 0){
             //fetching Races
@@ -103,10 +82,10 @@ function fetchingData(localSavedData, year){
                 .then(data=>{
                     
                     //add Races to local storage
-                    data.forEach(e => {
-                        localSavedData.push(e);
-                        races.push(e.id)
-                        createRacesHTML(e.round, e.name, selectedYear, e.id, e.circuit);
+                    data.forEach(dataItem => {
+                        localSavedData.push(dataItem);
+                        races.push(dataItem.id)
+                        createRacesHTML(dataItem.round, dataItem.name, year, dataItem.id, dataItem.circuit);
                         updateStorage('races', localSavedData)
                     });
                     races.forEach(raceId=>{
@@ -126,12 +105,11 @@ function fetchingData(localSavedData, year){
                 });
             
                 
-        }else{ //fetch from local storage
-            console.log('we have it alr');
+        }else{
             const races = retrieveStorage('races');
-            races.forEach(e => {
-                localSavedData.push(e);
-                createRacesHTML(e.round, e.name, year, e.id, e.circuit);  
+            races.forEach(dataItem => {
+                localSavedData.push(dataItem);
+                createRacesHTML(dataItem.round, dataItem.name, year, dataItem.id, dataItem.circuit);  
             });
         }
 }
@@ -147,6 +125,10 @@ function retrieveStorage(key){
 function updateStorage(key,fetchedData){
     localStorage.setItem(key, JSON.stringify(fetchedData));
 }
-function removeStorage(){
-    localStorage.removeItem('races');
-}
+function checkFavorite(favData){
+    if(retrieveStorage('favorites').includes(favData.textContent) || 
+        retrieveStorage('favorites').includes(favData.textContent +"View Driver") ||
+        retrieveStorage('favorites').includes(favData.textContent +"View Constructor")) {
+        favData.style.backgroundColor = "green";
+    }
+};

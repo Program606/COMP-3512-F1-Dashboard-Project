@@ -1,12 +1,11 @@
 
 
-https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=2023
 function populateRaces(year){
     fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${year}`)
     .then(resp=>resp.json())
     .then(data=>{
-        data.forEach(e => {
-            createRacesHTML(e.round, e.name, year, e.id, e.circuit);           
+        data.forEach(dataItem => {
+            createRacesHTML(dataItem.round, dataItem.name, year, dataItem.id, dataItem.circuit);           
         });
     });
 };
@@ -37,7 +36,7 @@ function createRacesHTML(round, name, year, id, circuit){
             circuitButton.textContent = "View Circuit";
             circuitButton.addEventListener("click", () => {
                 event.stopPropagation();
-                dialogs.showCircuitDialog(circuit); // Use the circuit object
+                dialogs.showCircuitDialog(circuit); 
             });
 
         racelist.appendChild(newRow);
@@ -48,21 +47,20 @@ function createRacesHTML(round, name, year, id, circuit){
         newDataLink.appendChild(newDataButton);
         newDataLink.appendChild(circuitButton);
 }
-https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100 
     function populateQualifyReal(fetchedData){
     const qualifyTitle = document.querySelector("#qualifyTitle");
     qualifyTitle.textContent = `Qualifying results for ${fetchedData[0]?.race?.name}`;
 
     const qualifyList = document.querySelector("#qualifying-list");
     qualifyList.innerHTML = ""; // Clear previous content
-    fetchedData.forEach(e =>{
+    fetchedData.forEach(dataItem =>{
         const row = document.createElement("tr");
 
                 const positionCell = document.createElement("td");
-                positionCell.textContent = e.position;
+                positionCell.textContent = dataItem.position;
 
                 const nameCell = document.createElement("td");
-                nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+                nameCell.textContent = `${dataItem.driver.forename} ${dataItem.driver.surname}`;
                 nameCell.setAttribute('class', 'fav');
                 checkFavorite(nameCell);
 
@@ -70,12 +68,12 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
                 const driverButton = document.createElement("button");
                 driverButton.textContent = "View Driver";
                 driverButton.addEventListener("click", () => {
-                    dialogs.showDriverDialog(e.driver); // Use the driver object
+                    dialogs.showDriverDialog(dataItem.driver); // Use the driver object
                 });
                 nameCell.appendChild(driverButton);
 
                 const constructorCell = document.createElement("td");
-                constructorCell.textContent = e.constructor.name;
+                constructorCell.textContent = dataItem.constructor.name;
                 constructorCell.setAttribute('class', 'fav');
                 checkFavorite(constructorCell);
 
@@ -83,18 +81,18 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
                 const constructorButton = document.createElement("button");
                 constructorButton.textContent = "View Constructor";
                 constructorButton.addEventListener("click", () => {
-                    dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+                    dialogs.showConstructorDialog(dataItem.constructor); // Use the constructor object
                 });
                 constructorCell.appendChild(constructorButton);
 
                 const q1Cell = document.createElement("td");
-                q1Cell.textContent = e.q1 || "N/A";
+                q1Cell.textContent = dataItem.q1 || "N/A";
 
                 const q2Cell = document.createElement("td");
-                q2Cell.textContent = e.q2 || "N/A";
+                q2Cell.textContent = dataItem.q2 || "N/A";
 
                 const q3Cell = document.createElement("td");
-                q3Cell.textContent = e.q3 || "N/A";
+                q3Cell.textContent = dataItem.q3 || "N/A";
 
                 row.appendChild(positionCell);
                 row.appendChild(nameCell);
@@ -109,28 +107,28 @@ https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100
     makeTableSortable("#qualifying-list", ["number", "text", "text", "time", "time", "time"]);
 }
 function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
-    qualifyTitle = document.querySelector("#qualifyTitle");
+    const qualifyTitle = document.querySelector("#qualifyTitle");
     qualifyTitle.textContent = `Qualifying results for ${race}`;
 
     qualifyList = document.querySelector("#qualifying-list");
     newRow = document.createElement("tr");
 
-        newPosition = document.createElement("td");
+        const newPosition = document.createElement("td");
         newPosition.textContent = position;
 
-        newName = document.createElement("td");
+        const newName = document.createElement("td");
         newName.textContent = fname+" "+lname;
         
-        newConstructorName = document.createElement("td");
+        const newConstructorName = document.createElement("td");
         newConstructorName.textContent = cName;
 
-        newQ1 = document.createElement("td");
+        const newQ1 = document.createElement("td");
         newQ1.textContent = q1;
 
-        newQ2 = document.createElement("td");
+        const newQ2 = document.createElement("td");
         newQ2.textContent = q2;
 
-        newQ3 = document.createElement("td");
+        const newQ3 = document.createElement("td");
         newQ3.textContent = q3;
 
     qualifyList.appendChild(newRow);
@@ -142,7 +140,6 @@ function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
     newRow.appendChild(newQ3);
 
 }
-https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=1100
 function populateResults(raceId) {
     fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
         .then(resp => resp.json())
@@ -152,43 +149,43 @@ function populateResults(raceId) {
 
             const resultsList = document.querySelector("#results-list");
             resultsList.innerHTML = ""; // Clear previous content
-            top3 = [];
-            data.forEach(e => {
-                if(e.position < 4){
-                    top3.push(e);
+            const top3 = [];
+            data.forEach(dataItem => {
+                if(dataItem.position < 4){
+                    top3.push(dataItem);
                 }
                 const row = document.createElement("tr");
 
                 const nameCell = document.createElement("td");
-                nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+                nameCell.textContent = `${dataItem.driver.forename} ${dataItem.driver.surname}`;
 
                 // Add driver button
                 const driverButton = document.createElement("button");
                 driverButton.textContent = "View Driver";
                 driverButton.addEventListener("click", () => {
-                    dialogs.showDriverDialog(e.driver); // Use the driver object
+                    dialogs.showDriverDialog(dataItem.driver); // Use the driver object
                 });
                 nameCell.appendChild(driverButton);
 
                 const constructorCell = document.createElement("td");
-                constructorCell.textContent = e.constructor.name;
+                constructorCell.textContent = dataItem.constructor.name;
 
                 // Add constructor button
                 const constructorButton = document.createElement("button");
                 constructorButton.textContent = "View Constructor";
                 constructorButton.addEventListener("click", () => {
-                    dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+                    dialogs.showConstructorDialog(dataItem.constructor); // Use the constructor object
                 });
                 constructorCell.appendChild(constructorButton);
 
                 const positionCell = document.createElement("td");
-                positionCell.textContent = e.position;
+                positionCell.textContent = dataItem.position;
 
                 const lapsCell = document.createElement("td");
-                lapsCell.textContent = e.laps;
+                lapsCell.textContent = dataItem.laps;
 
                 const pointsCell = document.createElement("td");
-                pointsCell.textContent = e.points;
+                pointsCell.textContent = dataItem.points;
 
                 row.appendChild(positionCell);
                 row.appendChild(nameCell);
@@ -211,18 +208,18 @@ function populateResultsReal(fetchedData) {
     resultsList.innerHTML = ""; // Clear previous content
     const top3 = [];
     
-    fetchedData.forEach(e=>{
+    fetchedData.forEach(dataItem=>{
 
-        if(e.position < 4){
-            top3.push(e);
+        if(dataItem.position < 4){
+            top3.push(dataItem);
         }
         const row = document.createElement("tr");
 
         const positionCell = document.createElement("td");
-        positionCell.textContent = e.position;
+        positionCell.textContent = dataItem.position;
 
         const nameCell = document.createElement("td");
-        nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+        nameCell.textContent = `${dataItem.driver.forename} ${dataItem.driver.surname}`;
         nameCell.setAttribute('class', 'fav');
         checkFavorite(nameCell);
 
@@ -230,12 +227,12 @@ function populateResultsReal(fetchedData) {
         const driverButton = document.createElement("button");
         driverButton.textContent = "View Driver";
         driverButton.addEventListener("click", () => {
-            dialogs.showDriverDialog(e.driver); // Use the driver object
+            dialogs.showDriverDialog(dataItem.driver); // Use the driver object
         });
         nameCell.appendChild(driverButton);
     
         const constructorCell = document.createElement("td");
-        constructorCell.textContent = e.constructor.name;
+        constructorCell.textContent = dataItem.constructor.name;
         constructorCell.setAttribute('class', 'fav');
         checkFavorite(constructorCell);
 
@@ -244,15 +241,15 @@ function populateResultsReal(fetchedData) {
         const constructorButton = document.createElement("button");
         constructorButton.textContent = "View Constructor";
         constructorButton.addEventListener("click", () => {
-            dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+            dialogs.showConstructorDialog(dataItem.constructor); // Use the constructor object
         });
         constructorCell.appendChild(constructorButton);
     
         const lapsCell = document.createElement("td");
-        lapsCell.textContent = e.laps;
+        lapsCell.textContent = dataItem.laps;
     
         const pointsCell = document.createElement("td");
-        pointsCell.textContent = e.points;
+        pointsCell.textContent = dataItem.points;
     
         row.appendChild(positionCell);
         row.appendChild(nameCell);
@@ -272,19 +269,19 @@ function createResultsHTML(position, fname, lname, constructor,laps,points, race
 
     resultlist = document.querySelector("#results-list");
     newRow = document.createElement("tr");
-        newPosition = document.createElement("td");
+        const newPosition = document.createElement("td");
         newPosition.textContent = position;
 
-        newName = document.createElement("td");
+        const newName = document.createElement("td");
         newName.textContent = fname + " " + lname;
                 
         newConstructorName = document.createElement("td");
         newConstructorName.textContent = constructor;
 
-        newLaps = document.createElement("td");
+        const newLaps = document.createElement("td");
         newLaps.textContent = laps;
 
-        newPoints = document.createElement("td");
+        const newPoints = document.createElement("td");
         newPoints.textContent = points;
 
     resultlist.appendChild(newRow);
@@ -298,12 +295,12 @@ function createResultsHTML(position, fname, lname, constructor,laps,points, race
 
 }
 function createTop3HTML(top3){
-    span3 = document.querySelector("span#top3");
+    const span3 = document.querySelector("span#top3");
     span3.replaceChildren();
 
     top3.forEach(d =>{
-        top3Div = document.createElement("div");
-            topName = document.createElement("p");
+        const top3Div = document.createElement("div");
+            const topName = document.createElement("p");
             topName.textContent = d.driver.forename+" "+ d.driver.surname;
             place = document.createElement('img');
             switch (d.position){
@@ -351,7 +348,6 @@ function makeTableSortable(tableSelector, columnTypes) {
                     return aText.localeCompare(bText);
                 }
             });
-
             const tbody = table.querySelector("tbody");
             tbody.innerHTML = "";
             sortedRows.forEach(row => tbody.appendChild(row));
