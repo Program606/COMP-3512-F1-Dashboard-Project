@@ -25,16 +25,13 @@ document.addEventListener("DOMContentLoaded", () =>{
         opt.textContent = year;
         select.appendChild(opt);
     });
-
+    const localSavedData = retrieveStorage('races');
     //Event Listenerts
     select.addEventListener("change", e=>{
     selectedYear = e.target.value;
     if(e.target.nodeName.toLowerCase() == "select"){
         toRacesView();
-        console.log(selectedYear);
-        populateRaces(selectedYear);
-        //not done: retrieving (localStorage) i was thinking of adding a seperate function to handle retrieving
-        //not done: check if entered in local storage or not
+        fetchingData(localSavedData, selectedYear);
         };
     });
 
@@ -46,7 +43,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         document.querySelector("main section#qualifying").style.display = "block";
         document.querySelector("main section#results").style.display = "block";
 
-        populateQualify(raceId);
+        checkPopulateQualify(raceId);
+        checkPopulateResults(raceId);
         populateResults(raceId);
     };
 
@@ -60,3 +58,69 @@ function toRacesView(){
     document.querySelector("main section#races").style.display = "block";
     
 };
+
+function fetchingData(localSavedData, year){
+        //fetching
+        // populateRaces(selectedYear);
+
+        //if data is not found in local storage
+        if(localSavedData.length == 0){
+            console.log('we dont have it');
+            //fetching Races
+            fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${year}`)
+                .then(resp=>resp.json())
+                .then(data=>{
+                    //add to local storage
+                    data.forEach(e => {
+                        localSavedData.push(e);
+                        createRacesHTML(e.round, e.name, selectedYear, e.id, e.circuit);  
+                        updateStorage('races', localSavedData)
+                    });
+                });
+                
+        }else{ //fetch from local storage
+            console.log('we have it alr');
+            const races = retrieveStorage('races');
+            races.forEach(e => {
+                localSavedData.push(e);
+                createRacesHTML(e.round, e.name, year, e.id, e.circuit);  
+            });
+        }
+}
+function fetchingQualify(raceId){
+    qualifyData =[];
+    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            data.forEach(e => {
+                qualifyData.push(e);
+                updateStorage('qualifyData', qualifyData);
+            });
+        });
+}
+function checkPopulateQualify(raceId){
+    //if qualifyResult is in localStorage
+    fetchingQualify(raceId);
+    populateQualifyReal(retrieveStorage('qualifyData'));
+    
+}
+function checkPopulateResults(raceId){
+    resultData =[];
+    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            data.forEach(e => {
+                resultData.push(e);
+                updateStorage('resultData', resultData);
+            });
+        });
+}
+function retrieveStorage(key){
+    return JSON.parse(localStorage.getItem(key)) || []; 
+}
+function updateStorage(key,fetchedData){
+    localStorage.setItem(key, JSON.stringify(fetchedData));
+}
+function removeStorage(){
+    localStorage.removeItem('races');
+}

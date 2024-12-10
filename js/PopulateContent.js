@@ -6,7 +6,6 @@ function populateRaces(year){
     .then(resp=>resp.json())
     .then(data=>{
         data.forEach(e => {
-            console.log(e.id)
             createRacesHTML(e.round, e.name, year, e.id, e.circuit);           
         });
     });
@@ -48,38 +47,15 @@ function createRacesHTML(round, name, year, id, circuit){
         newDataLink.appendChild(circuitButton);
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=1100 
-// function populateQualify(raceId){
-// //
-// fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
-//     .then(resp=>resp.json())
-//     .then(data=>{
-//         data.forEach(e=>{
-//             createQualifyHTML(
-//                 e.position, 
-//                 e.driver.forename, 
-//                 e.driver.surname, 
-//                 e.constructor.name, 
-//                 e.q1, 
-//                 e.q2, 
-//                 e.q3,
-//                 e.race.name
-//             );
-//         });
-//     });
-// }
+function populateQualifyReal(fetchedData){
+    const qualifyTitle = document.querySelector("#qualifyTitle");
+    qualifyTitle.textContent = `Qualifying results for ${fetchedData[0]?.race?.name}`;
 
-function populateQualify(raceId) {
-    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
-        .then(resp => resp.json())
-        .then(data => {
-            const qualifyTitle = document.querySelector("#qualifyTitle");
-            qualifyTitle.textContent = `Qualifying results for ${data[0]?.race?.name}`;
-
-            const qualifyList = document.querySelector("#qualifying-list");
-            qualifyList.innerHTML = ""; // Clear previous content
-
-            data.forEach(e => {
-                const row = document.createElement("tr");
+    const qualifyList = document.querySelector("#qualifying-list");
+    qualifyList.innerHTML = ""; // Clear previous content
+    
+    fetchedData.forEach(e =>{
+        const row = document.createElement("tr");
 
                 const nameCell = document.createElement("td");
                 nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
@@ -125,8 +101,8 @@ function populateQualify(raceId) {
                 row.appendChild(q3Cell);
 
                 qualifyList.appendChild(row);
-            });
-        });
+            
+    });
 }
 function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
     qualifyTitle = document.querySelector("#qualifyTitle");
@@ -163,23 +139,6 @@ function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
 
 }
 https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=1100
-// function populateResults(raceId){
-//     top3 = [];
-// fetch(`https:www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
-//     .then(resp=> resp.json())
-//     .then(data=>{
-//         data.forEach(e=>{
-//             createResultsHTML(
-//                 e.position,
-//                 e.driver.forename,
-//                 e.driver.surname,
-//                 e.constructor.name,
-//                 e.laps,
-//                 e.points,
-//                 e.race.name)
-//         });
-//     })
-// }
 function populateResults(raceId) {
     fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
         .then(resp => resp.json())
@@ -189,8 +148,11 @@ function populateResults(raceId) {
 
             const resultsList = document.querySelector("#results-list");
             resultsList.innerHTML = ""; // Clear previous content
-
+            top3 = [];
             data.forEach(e => {
+                if(e.position < 4){
+                    top3.push(e);
+                }
                 const row = document.createElement("tr");
 
                 const nameCell = document.createElement("td");
@@ -232,7 +194,62 @@ function populateResults(raceId) {
 
                 resultsList.appendChild(row);
             });
+            createTop3HTML(top3);
         });
+}
+function populateResultsReal(fetchedData){
+    const resultsTitle = document.querySelector("#resultsTitle");
+    resultsTitle.textContent = `Results for ${fetchedData[0]?.race?.name || "this race"}`;
+
+    const resultsList = document.querySelector("#results-list");
+    resultsList.innerHTML = ""; // Clear previous content
+    top3 = [];
+    fetchedData.forEach(e=>{
+        if(e.position < 4){
+            top3.push(e);
+        }
+        const row = document.createElement("tr");
+    
+        const nameCell = document.createElement("td");
+        nameCell.textContent = `${e.driver.forename} ${e.driver.surname}`;
+    
+        // Add driver button
+        const driverButton = document.createElement("button");
+        driverButton.textContent = "View Driver";
+        driverButton.addEventListener("click", () => {
+            dialogs.showDriverDialog(e.driver); // Use the driver object
+        });
+        nameCell.appendChild(driverButton);
+    
+        const constructorCell = document.createElement("td");
+        constructorCell.textContent = e.constructor.name;
+    
+        // Add constructor button
+        const constructorButton = document.createElement("button");
+        constructorButton.textContent = "View Constructor";
+        constructorButton.addEventListener("click", () => {
+            dialogs.showConstructorDialog(e.constructor); // Use the constructor object
+        });
+        constructorCell.appendChild(constructorButton);
+    
+        const positionCell = document.createElement("td");
+        positionCell.textContent = e.position;
+    
+        const lapsCell = document.createElement("td");
+        lapsCell.textContent = e.laps;
+    
+        const pointsCell = document.createElement("td");
+        pointsCell.textContent = e.points;
+    
+        row.appendChild(positionCell);
+        row.appendChild(nameCell);
+        row.appendChild(constructorCell);
+        row.appendChild(lapsCell);
+        row.appendChild(pointsCell);
+    
+        resultsList.appendChild(row);
+    });
+    createTop3HTML(top3);
 }
 function createResultsHTML(position, fname, lname, constructor,laps,points, raceName){
     resultsTitle = document.querySelector("#resultsTitle");
@@ -266,11 +283,33 @@ function createResultsHTML(position, fname, lname, constructor,laps,points, race
 
 }
 function createTop3HTML(top3){
-    // <tr>
-    //     <th>Pos</th>
-    //     <th>Name</th>
-    //     <th>Constructor</th>
-    //     <th>Laps</th>
-    //     <th>Points</th>
-    // </tr>
+    span3 = document.querySelector("span#top3");
+    span3.replaceChildren();
+
+    top3.forEach(d =>{
+        top3Div = document.createElement("div");
+            topName = document.createElement("p");
+            topName.textContent = d.driver.forename+" "+ d.driver.surname;
+            place = document.createElement('img');
+            switch (d.position){
+                case 1:
+                    place.setAttribute("src", '../images/1stPlace.jpg');
+                    top3Div.style.backgroundColor = "gold"
+                    break
+                case 2:
+                    place.setAttribute("src", '../images/2ndPlace.webp');
+                    top3Div.style.backgroundColor = "silver"
+                    break;
+                case 3:
+                    place.setAttribute("src", '../images/3rdPlace.webp');
+                    top3Div.style.backgroundColor = "#FF5733"
+                    break;
+            }
+            
+
+        span3.appendChild(top3Div);
+        top3Div.appendChild(place);
+        top3Div.appendChild(topName);
+    });
+    
 }
