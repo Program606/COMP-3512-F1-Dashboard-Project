@@ -89,14 +89,14 @@ function fetchingData(localSavedData, year){
                         updateStorage('races', localSavedData)
                     });
                     races.forEach(raceId=>{
-                        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId.id}`)
+                        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`)
                             .then(resp => resp.json())
                             .then(data => {
                                 updateStorage('qualifyData'+raceId, data);
                         });
                     });
                     races.forEach(raceId=>{
-                        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId.id}`)
+                        fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
                             .then(resp => resp.json())
                             .then(data => {
                                 updateStorage('resultData'+raceId, data);

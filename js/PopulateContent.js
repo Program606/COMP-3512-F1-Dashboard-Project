@@ -106,6 +106,100 @@ function createRacesHTML(round, name, year, id, circuit){
     });
     makeTableSortable("#qualifying-list", ["number", "text", "text", "time", "time", "time"]);
 }
+function createQualifyHTML(position, fname, lname, cName, q1, q2, q3, race){
+    const qualifyTitle = document.querySelector("#qualifyTitle");
+    qualifyTitle.textContent = `Qualifying results for ${race}`;
+
+    qualifyList = document.querySelector("#qualifying-list");
+    newRow = document.createElement("tr");
+
+        const newPosition = document.createElement("td");
+        newPosition.textContent = position;
+
+        const newName = document.createElement("td");
+        newName.textContent = fname+" "+lname;
+        
+        const newConstructorName = document.createElement("td");
+        newConstructorName.textContent = cName;
+
+        const newQ1 = document.createElement("td");
+        newQ1.textContent = q1;
+
+        const newQ2 = document.createElement("td");
+        newQ2.textContent = q2;
+
+        const newQ3 = document.createElement("td");
+        newQ3.textContent = q3;
+
+    qualifyList.appendChild(newRow);
+    newRow.appendChild(newPosition);
+    newRow.appendChild(newName);
+    newRow.appendChild(newConstructorName);
+    newRow.appendChild(newQ1);
+    newRow.appendChild(newQ2);
+    newRow.appendChild(newQ3);
+
+}
+function populateResults(raceId) {
+    fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            const resultsTitle = document.querySelector("#resultsTitle");
+            resultsTitle.textContent = `Results for ${data[0]?.race?.name || "this race"}`;
+
+            const resultsList = document.querySelector("#results-list");
+            resultsList.innerHTML = ""; // Clear previous content
+            const top3 = [];
+            data.forEach(dataItem => {
+                if(dataItem.position < 4){
+                    top3.push(dataItem);
+                }
+                const row = document.createElement("tr");
+
+                const nameCell = document.createElement("td");
+                nameCell.textContent = `${dataItem.driver.forename} ${dataItem.driver.surname}`;
+
+                // Add driver button
+                const driverButton = document.createElement("button");
+                driverButton.textContent = "View Driver";
+                driverButton.addEventListener("click", () => {
+                    dialogs.showDriverDialog(dataItem.driver); // Use the driver object
+                });
+                nameCell.appendChild(driverButton);
+
+                const constructorCell = document.createElement("td");
+                constructorCell.textContent = dataItem.constructor.name;
+
+                // Add constructor button
+                const constructorButton = document.createElement("button");
+                constructorButton.textContent = "View Constructor";
+                constructorButton.addEventListener("click", () => {
+                    dialogs.showConstructorDialog(dataItem.constructor); // Use the constructor object
+                });
+                constructorCell.appendChild(constructorButton);
+
+                const positionCell = document.createElement("td");
+                positionCell.textContent = dataItem.position;
+
+                const lapsCell = document.createElement("td");
+                lapsCell.textContent = dataItem.laps;
+
+                const pointsCell = document.createElement("td");
+                pointsCell.textContent = dataItem.points;
+
+                row.appendChild(positionCell);
+                row.appendChild(nameCell);
+                row.appendChild(constructorCell);
+                row.appendChild(lapsCell);
+                row.appendChild(pointsCell);
+
+                resultsList.appendChild(row);
+            });
+            createTop3HTML(top3);
+
+            makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
+        });
+}
 function populateResultsReal(fetchedData) {
     const resultsTitle = document.querySelector("#resultsTitle");
     resultsTitle.textContent = `Results for ${fetchedData[0]?.race?.name || "this race"}`;
@@ -169,6 +263,37 @@ function populateResultsReal(fetchedData) {
 
     makeTableSortable("#results-list", ["number", "text", "text", "number", "number"]);
 }
+function createResultsHTML(position, fname, lname, constructor,laps,points, raceName){
+    resultsTitle = document.querySelector("#resultsTitle");
+    resultsTitle.textContent = `Results for ${raceName}`;
+
+    resultlist = document.querySelector("#results-list");
+    newRow = document.createElement("tr");
+        const newPosition = document.createElement("td");
+        newPosition.textContent = position;
+
+        const newName = document.createElement("td");
+        newName.textContent = fname + " " + lname;
+                
+        newConstructorName = document.createElement("td");
+        newConstructorName.textContent = constructor;
+
+        const newLaps = document.createElement("td");
+        newLaps.textContent = laps;
+
+        const newPoints = document.createElement("td");
+        newPoints.textContent = points;
+
+    resultlist.appendChild(newRow);
+    newRow.appendChild(newPosition);
+    newRow.appendChild(newName);
+    newRow.appendChild(newConstructorName);
+    newRow.appendChild(newLaps);
+    newRow.appendChild(newPoints);
+
+
+
+}
 function createTop3HTML(top3){
     const span3 = document.querySelector("span#top3");
     span3.replaceChildren();
@@ -180,15 +305,15 @@ function createTop3HTML(top3){
             place = document.createElement('img');
             switch (d.position){
                 case 1:
-                    place.setAttribute("src", './images/1stPlace.png');
+                    place.setAttribute("src", '../images/1stPlace.png');
                     top3Div.style.backgroundColor = "gold"
                     break
                 case 2:
-                    place.setAttribute("src", './images/2ndPlace.png');
+                    place.setAttribute("src", '../images/2ndPlace.png');
                     top3Div.style.backgroundColor = "silver"
                     break;
                 case 3:
-                    place.setAttribute("src", './images/3rdPlace.png');
+                    place.setAttribute("src", '../images/3rdPlace.png');
                     top3Div.style.backgroundColor = "#FF5733"
                     break;
             }
