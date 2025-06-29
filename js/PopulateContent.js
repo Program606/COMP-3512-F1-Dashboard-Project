@@ -302,25 +302,21 @@ function createTop3HTML(top3){
         const top3Div = document.createElement("div");
             const topName = document.createElement("p");
             topName.textContent = d.driver.forename+" "+ d.driver.surname;
-            place = document.createElement('img');
             switch (d.position){
                 case 1:
-                    place.setAttribute("src", '../images/1stPlace.png');
                     top3Div.style.backgroundColor = "gold"
                     break
                 case 2:
-                    place.setAttribute("src", '../images/2ndPlace.png');
                     top3Div.style.backgroundColor = "silver"
                     break;
                 case 3:
-                    place.setAttribute("src", '../images/3rdPlace.png');
                     top3Div.style.backgroundColor = "#FF5733"
                     break;
             }
             
 
         span3.appendChild(top3Div);
-        top3Div.appendChild(place);
+        // top3Div.appendChild(place);
         top3Div.appendChild(topName);
     });
     
